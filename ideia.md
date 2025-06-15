@@ -8,10 +8,6 @@
 
 - Quantidade de pets por tipo (cachorro, gato, etc.).
 
-## Entidades:
-
-cliente, pet, raca, consulta, veterinario, tratamento, vacina, receita, agendamento, funcionario.
-
 ## IA generativa:
 
 Descrever sintomas e a IA sugere possíveis causas e ações básicas:

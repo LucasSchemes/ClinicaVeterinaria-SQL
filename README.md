@@ -3,4 +3,4 @@
 
 
 ## Modelo Lógico
-![Captura de tela 2025-06-15 122623](https://github.com/user-attachments/assets/323bd4ff-6fa5-41a5-b378-2c28100f12b7)
+![Captura de tela 2025-06-15 123833](https://github.com/user-attachments/assets/07b241f7-98e2-48c3-9997-d05792bbc0d1)

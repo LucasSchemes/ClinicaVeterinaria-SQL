@@ -1,6 +1,7 @@
 ## Modelo Conceitual
-![Captura de tela 2025-06-15 123405](https://github.com/user-attachments/assets/23a27793-2270-4176-b0bb-55914da85e42)
+![Captura de tela 2025-06-20 135325](https://github.com/user-attachments/assets/07efdeb0-859b-4f3c-b743-d797d3ead361)
+
 
 
 ## Modelo Lógico
-![Captura de tela 2025-06-15 123833](https://github.com/user-attachments/assets/07b241f7-98e2-48c3-9997-d05792bbc0d1)
+![Captura de tela 2025-06-20 135305](https://github.com/user-attachments/assets/707fb792-2cbc-4910-a927-b4a76fa01d63)

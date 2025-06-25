@@ -1,71 +1,91 @@
-# consultas.py
-from crud_base import executar_comando
-import csv
+import pandas as pd
 
-# salvar arquivo da consulta
-def salvar_csv(dados, cabecalho, nome_arquivo):
-    
+def executar_consultas(cursor):
+    while True:
+        print("\n--- Consultas Sumarizadas ---")
+        print("1. Total de faturas por cliente")
+        print("2. Produtos mais vendidos por quantidade")
+        print("3. Faturamento por espécie de pet")
+        print("0. Voltar ao menu principal")
+        opcao = input("Escolha uma consulta: ")
+
+        if opcao == '1':
+            consulta_faturas_por_cliente(cursor)
+        elif opcao == '2':
+            consulta_produtos_mais_vendidos(cursor)
+        elif opcao == '3':
+            consulta_faturamento_por_especie(cursor)
+        elif opcao == '0':
+            break
+        else:
+            print("Opção inválida.")
+
+def consulta_faturas_por_cliente(cursor):
+    print("\nConsulta: Total de faturas por cliente (somatório de valores).")
+
+    sql = """
+        SELECT c.nome AS Cliente, COUNT(f.id_fat) AS QuantidadeFaturas, SUM(f.valor_total) AS TotalFaturado
+        FROM tb_cliente c
+        JOIN tb_fatura f ON c.id_cli = f.id_cli_fkc
+        GROUP BY c.nome
+    """
+
+    cursor.execute(sql)
+    resultados = cursor.fetchall()
+
+    print("\nCliente | Quantidade de Faturas | Total Faturado")
+    for linha in resultados:
+        print(f"{linha[0]} | {linha[1]} | R${linha[2]:.2f}")
+
+    salvar_csv(resultados, ['Cliente', 'QuantidadeFaturas', 'TotalFaturado'], 'faturas_por_cliente.csv')
+
+def consulta_produtos_mais_vendidos(cursor):
+    print("\nConsulta: Produtos mais vendidos (quantidade total).")
+
+    sql = """
+        SELECT p.nome AS Produto, SUM(i.quantidade) AS QuantidadeVendida
+        FROM tb_produto p
+        JOIN tb_item_fatura i ON p.id_prod = i.id_prod_fkc
+        JOIN tb_fatura f ON i.id_fat_fkc = f.id_fat
+        GROUP BY p.nome
+        ORDER BY QuantidadeVendida DESC
+    """
+
+    cursor.execute(sql)
+    resultados = cursor.fetchall()
+
+    print("\nProduto | Quantidade Vendida")
+    for linha in resultados:
+        print(f"{linha[0]} | {linha[1]}")
+
+    salvar_csv(resultados, ['Produto', 'QuantidadeVendida'], 'produtos_mais_vendidos.csv')
+
+def consulta_faturamento_por_especie(cursor):
+    print("\nConsulta: Faturamento total por espécie de pet.")
+
+    sql = """
+        SELECT e.nome_especie AS Especie, SUM(f.valor_total) AS TotalFaturado
+        FROM tb_fatura f
+        JOIN tb_consulta c ON f.id_con_fkc = c.id_con
+        JOIN tb_pet p ON c.id_pet_fkc = p.id_pet
+        JOIN tb_raca r ON p.id_raca_fkc = r.id_raca
+        JOIN tb_especie e ON r.id_esp_fkc = e.id_esp
+        GROUP BY e.nome_especie
+    """
+
+    cursor.execute(sql)
+    resultados = cursor.fetchall()
+
+    print("\nEspécie | Total Faturado")
+    for linha in resultados:
+        print(f"{linha[0]} | R${linha[1]:.2f}")
+
+    salvar_csv(resultados, ['Especie', 'TotalFaturado'], 'faturamento_por_especie.csv')
+
+def salvar_csv(resultados, colunas, nome_arquivo):
     try:
-        with open(nome_arquivo, 'w', newline='', encoding='utf-8') as f:
-            writer = csv.writer(f)
-            writer.writerow(cabecalho)
-            writer.writerows(dados)
-        print(f"Dados salvos em '{nome_arquivo}'.")
-    
+        df = pd.DataFrame(resultados, columns=colunas)
+        df.to_csv(nome_arquivo, index=False)
+        print(f"Resultado salvo em: {nome_arquivo}")
     except Exception as e:
         print(f"Erro ao salvar CSV: {e}")
-
-# consulta de atendimentos por mês
-def consulta_atendimentos_mes():
-    print("\n--- Consulta: Total de Atendimentos por Mês ---")
-    
-    query = """
-        SELECT DATE_FORMAT(c.data_hora_agendada, '%Y-%m') AS mes_ano, COUNT(c.id) AS total_consultas
-        FROM consulta c
-        GROUP BY mes_ano
-        ORDER BY mes_ano;
-    """
-    resultados = executar_comando(query, fetch=True)
-    salvar_csv(resultados, ["Mês/Ano", "Total de Consultas"], "atendimentos_mes.csv")
-
-# consulta de pets por espécie e veterinário
-def consulta_pets_por_especie_e_vet():
-    print("\n--- Consulta: Pets por Espécie e Veterinário ---")
-    query = """
-        SELECT v.nome, r.especie, COUNT(DISTINCT p.id)
-        FROM consulta c
-        JOIN pet p ON c.id_pet = p.id
-        JOIN raca r ON p.id_raca = r.id
-        JOIN veterinario v ON c.id_veterinario = v.id
-        GROUP BY v.nome, r.especie
-        ORDER BY v.nome;
-    """
-    resultados = executar_comando(query, fetch=True)
-    salvar_csv(resultados, ["Veterinário", "Espécie", "Total"], "pets_por_especie_vet.csv")
-
-# consulta da média de duração de tratamentos por especialidade
-def consulta_media_tratamentos():
-    print("\n--- Consulta: Média de Duração de Tratamentos por Especialidade ---")
-    query = """
-        SELECT v.especialidade, AVG(t.duracao_dias)
-        FROM tratamento t
-        JOIN consulta c ON t.id_consulta = c.id
-        JOIN veterinario v ON c.id_veterinario = v.id
-        GROUP BY v.especialidade;
-    """
-    resultados = executar_comando(query, fetch=True)
-    salvar_csv(resultados, ["Especialidade", "Média Duração (dias)"], "media_duracao_tratamentos.csv")
-
-def menu_consultas():
-    while True:
-        print("\n--- Menu Consultas ---")
-        print("1. Atendimentos por Mês")
-        print("2. Pets por Espécie e Veterinário")
-        print("3. Média de Duração de Tratamentos")
-        print("0. Voltar")
-        op = input("Escolha: ")
-        if op == "1": consulta_atendimentos_mes()
-        elif op == "2": consulta_pets_por_especie_e_vet()
-        elif op == "3": consulta_media_tratamentos()
-        elif op == "0": break
-        else: print("Inválido")

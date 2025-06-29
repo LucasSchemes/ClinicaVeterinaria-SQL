@@ -1,0 +1,11 @@
+DROP TABLE IF EXISTS tb_prescricao;
+DROP TABLE IF EXISTS tb_item_fatura;
+DROP TABLE IF EXISTS tb_fatura;
+DROP TABLE IF EXISTS tb_produto;
+DROP TABLE IF EXISTS tb_consulta;
+DROP TABLE IF EXISTS tb_agendamento;
+DROP TABLE IF EXISTS tb_pet;
+DROP TABLE IF EXISTS tb_funcionario;
+DROP TABLE IF EXISTS tb_cliente;
+DROP TABLE IF EXISTS tb_raca;
+DROP TABLE IF EXISTS tb_especie;

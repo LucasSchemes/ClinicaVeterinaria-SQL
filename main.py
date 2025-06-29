@@ -1,65 +1,11 @@
-import os
-from crud import CrudBase
+import mysql.connector
+from gerenciar import gerencia_registros
 from consultas import executar_consultas
 from ia_module import sugerir_diagnostico_ia
-import mysql.connector
 
-# Configurações do banco de dados
-config = {
-    "database": "clinica_vet",
-    "user": "lucasschemes",
-    "password": "clinica123",
-    "host": "localhost",
-    "port": "3306"
-}
+def menu(conexao, cursor):
+    crud = gerencia_registros(conexao, cursor)
 
-
-try:
-    conexao = mysql.connector.connect(**config)
-    cursor = conexao.cursor()
-    crud = CrudBase(conexao, cursor)
-    print("\n🌟 Conexão com banco de dados realizada com sucesso! 🌟")
-except Exception as e:
-    print(f"❌ Erro ao conectar ao banco: {e}")
-    exit()
-
-def criar_tabelas():
-    try:
-        with open('criar_tabelas.sql', 'r') as file:
-            comandos = file.read()
-            for comando in comandos.split(';'):
-                if comando.strip():
-                    cursor.execute(comando)
-            conexao.commit()
-        print("✅ Tabelas criadas com sucesso.")
-    except Exception as e:
-        print(f"❌ Erro ao criar tabelas: {e}")
-
-def carregar_dados_iniciais():
-    try:
-        with open('insert_inicial.sql', 'r') as file:
-            comandos = file.read()
-            for comando in comandos.split(';'):
-                if comando.strip():
-                    cursor.execute(comando)
-            conexao.commit()
-        print("✅ Dados carregados com sucesso.")
-    except Exception as e:
-        print(f"❌ Erro ao carregar dados: {e}")
-
-def excluir_tabelas():
-    try:
-        with open('droptabelas.sql', 'r') as file:
-            comandos = file.read()
-            for comando in comandos.split(';'):
-                if comando.strip():
-                    cursor.execute(comando)
-            conexao.commit()
-        print("✅ Tabelas excluídas com sucesso.")
-    except Exception as e:
-        print(f"❌ Erro ao excluir tabelas: {e}")
-
-def menu():
     while True:
         print("\n" + "=" * 50)
         print("🐾  Sistema de Gestão - Clínica Veterinária 🐾".center(50))
@@ -76,11 +22,11 @@ def menu():
         opcao = input("Escolha uma opção: ")
 
         if opcao == '1':
-            criar_tabelas()
+            criar_tabelas(cursor, conexao)
         elif opcao == '2':
-            carregar_dados_iniciais()
+            carregar_dados_iniciais(cursor, conexao)
         elif opcao == '3':
-            excluir_tabelas()
+            excluir_tabelas(cursor, conexao)
         elif opcao == '4':
             crud.menu_crud()
         elif opcao == '5':
@@ -93,8 +39,54 @@ def menu():
         else:
             print("❌ Opção inválida. Tente novamente.")
 
-    cursor.close()
-    conexao.close()
+def criar_tabelas(cursor, conexao):
+    try:
+        with open('tabelas/criar_tabelas.sql', 'r') as file:
+            comandos = file.read()
+            for comando in comandos.split(';'):
+                if comando.strip():
+                    cursor.execute(comando)
+            conexao.commit()
+        print("✅ Tabelas criadas com sucesso.")
+    except Exception as e:
+        print(f"❌ Erro ao criar tabelas: {e}")
+
+def carregar_dados_iniciais(cursor, conexao):
+    try:
+        with open('tabelas/insert_inicial.sql', 'r') as file:
+            comandos = file.read()
+            for comando in comandos.split(';'):
+                if comando.strip():
+                    cursor.execute(comando)
+            conexao.commit()
+        print("✅ Dados carregados com sucesso.")
+    except Exception as e:
+        print(f"❌ Erro ao carregar dados: {e}")
+
+def excluir_tabelas(cursor, conexao):
+    try:
+        with open('tabelas/droptabelas.sql', 'r') as file:
+            comandos = file.read()
+            for comando in comandos.split(';'):
+                if comando.strip():
+                    cursor.execute(comando)
+            conexao.commit()
+        print("✅ Tabelas excluídas com sucesso.")
+    except Exception as e:
+        print(f"❌ Erro ao excluir tabelas: {e}")
 
 if __name__ == "__main__":
-    menu()
+    try:
+        with mysql.connector.connect(
+            user='lucasschemes',
+            password='clinica123',
+            host='localhost',
+            database='clinica_vet',
+            port=3306
+        ) as conexao:
+            with conexao.cursor() as cursor:
+                print("\n🌟 Conexão com banco de dados realizada com sucesso! 🌟")
+                menu(conexao, cursor)
+
+    except Exception as e:
+        print(f"❌ Erro ao conectar ao banco: {e}")

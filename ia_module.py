@@ -43,7 +43,7 @@ Sugira possíveis causas e oriente procurar um veterinário."""
 
         response = model.generate_content(prompt)
 
-        # Versão com verificação mais segura para múltiplos formatos de retorno
+      
         resposta_texto = ""
         if hasattr(response, 'text') and response.text:
             resposta_texto = response.text

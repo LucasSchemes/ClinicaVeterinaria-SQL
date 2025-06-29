@@ -29,6 +29,7 @@ def exportar_csv(colunas, resultados, nome_arquivo_csv):
         print("💡 Você pode abrir este arquivo no Excel para criar o gráfico.")
     except Exception as e:
         print(f"❌ Erro ao exportar CSV: {e}")
+
 def gerar_grafico_csv(nome_arquivo_csv, titulo, coluna_x, coluna_y):
     try:
         caminho_csv = os.path.join('exportacoes', nome_arquivo_csv)
@@ -64,7 +65,7 @@ def gerar_grafico_csv(nome_arquivo_csv, titulo, coluna_x, coluna_y):
         else:
             ax.yaxis.set_major_locator(MaxNLocator(integer=True))  # padrão
 
-        # Mostrar valores nas barras
+        
         for p in ax.patches:
             valor = p.get_height()
             ax.annotate(f'{int(valor) if valor.is_integer() else f"{valor:.2f}"}',
@@ -124,7 +125,7 @@ def executar_consultas(cursor):
 
                 print("\n✅ Consulta executada com sucesso!")
 
-                # Exportar para CSV
+               
                 exportar_csv(colunas, resultados, nome_csv)
                 gerar_grafico_csv(nome_csv, titulo, colunas[0], colunas[1])
 

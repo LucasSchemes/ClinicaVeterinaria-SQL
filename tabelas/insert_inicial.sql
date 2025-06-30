@@ -75,5 +75,5 @@ INSERT INTO tb_prescricao (id_con_fkc, id_prod_fkc, receita) VALUES
 (1, 1, 'Administrar o antibiotico A por 7 dias.'),
 (2, 2, 'Dar o vermifugo B conforme orientacao.'),
 (3, 1, 'Repetir dose do Antibiotico A por 3 dias.'),
-(4, 3, 'Aplicar Anti-inflamatorio C durante 7 dias.'),
-(5, 3, 'Aplicar Anti-inflamatorio C em dias alternados.');
+(4, 3, 'Aplicar Antibiotico C durante 7 dias.'),
+(5, 3, 'Aplicar Antibiotico C em dias alternados.');

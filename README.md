@@ -1,6 +1,6 @@
 # Clínica Veterinária – Sistema de Gestão com SQL e Python
 
-Este projeto integra scripts SQL para modelagem de banco de dados com uma interface em Python para gerência e consultas. A ideia central é facilitar o controle de pacientes, atendimentos e informações veterinárias.
+Este projeto integra scripts SQL para modelagem de banco de dados com uma interface em Python para gerência e consultas. A ideia central é facilitar o controle de pacientes, atendimentos e informações veterinárias, possuindo IA generativa para facilitar o processo.
 
 ---
 
@@ -12,7 +12,7 @@ Este projeto integra scripts SQL para modelagem de banco de dados com uma interf
 - **`main.py`** – Script principal para controlar o funcionamento geral da aplicação.
 - **`gerenciar.py`** – Interface para operações CRUD sobre entidades (clientes, pacientes, atendimentos etc.).
 - **`consultas.py`** – Acesso a relatórios e consultas analíticas pré-definidas via SQL.
-- **`ia_module.py`** – Módulo com funcionalidades que envolvem inteligência artificial — possivelmente para recomendações ou automações.
+- **`ia_module.py`** – Módulo com funcionalidades que envolvem inteligência artificial — recomendações de tratamento.
 
 
 ---
@@ -24,7 +24,7 @@ Construir um sistema de gerenciamento para clínica veterinária, que inclui:
 - Modelagem lógica e implementação de banco de dados via SQL.
 - Execução de consultas úteis para gestão (relatórios financeiros, atendimentos, etc.).
 - Interface em Python para facilitar a operação do sistema.
-- Uso potencial de inteligência artificial para suporte à decisão ou automação.
+- Uso de IA para recomendações de tratamento e indicação de doenças.
 
 ---
 
@@ -33,7 +33,7 @@ Construir um sistema de gerenciamento para clínica veterinária, que inclui:
 - **SQL** (PostgreSQL, MySQL ou similar) para modelagem e consultas.
 - **Python 3.x** para scripts e interface interativa.
 - **Gerenciamento de Ambiente** via `.env` (genérico para conexão com banco).
-- Possível uso de bibliotecas de IA em `ia_module.py` (ex.: scikit-learn, SpaCy, TensorFlow, etc.).
+- API do Gemini para IA generativa.
 
 ---
 

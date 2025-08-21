@@ -13,7 +13,7 @@ Este projeto integra scripts SQL para modelagem de banco de dados com uma interf
 - **`gerenciar.py`** – Interface para operações CRUD sobre entidades (clientes, pacientes, atendimentos etc.).
 - **`consultas.py`** – Acesso a relatórios e consultas analíticas pré-definidas via SQL.
 - **`ia_module.py`** – Módulo com funcionalidades que envolvem inteligência artificial — possivelmente para recomendações ou automações.
-- **Imagens** – Representações visuais do **Modelo Conceitual** e **Modelo Lógico** do banco de dados (ER, DER, diagramas) :contentReference[oaicite:1]{index=1}.
+
 
 ---
 

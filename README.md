@@ -8,7 +8,7 @@ Este projeto integra scripts SQL para modelagem de banco de dados com uma interf
 
 - **`tabelas/`** – Scripts SQL para criação de tabelas (modelagem lógica).
 - **`consultas/`** – Scripts SQL com consultas pré-definidas.
-- **`.env.example`** – Exemplo de configuração de variáveis de ambiente (como credenciais e conexões com banco).
+- **`.env.example`** – Exemplo de configuração de variáveis de ambiente.
 - **`main.py`** – Script principal para controlar o funcionamento geral da aplicação.
 - **`gerenciar.py`** – Interface para operações CRUD sobre entidades (clientes, pacientes, atendimentos etc.).
 - **`consultas.py`** – Acesso a relatórios e consultas analíticas pré-definidas via SQL.
@@ -55,8 +55,7 @@ Construir um sistema de gerenciamento para clínica veterinária, que inclui:
    Exemplo para PostgreSQL
     psql -U seu_usuario -d seu_banco -f tabelas/create_tables.sql
    ```
-4. (Opcional) Popule o banco com dados iniciais, se existirem scripts de inserção no repositório.
-5. Instale dependências em Python (se necessário):
+4. Instale dependências em Python (se necessário):
    ```bash
    pip install -r requirements.txt
     ```
